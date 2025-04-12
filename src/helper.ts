@@ -1,8 +1,8 @@
-import { ChatMessage } from '@/types/index';
+import { ChatMessageProps } from '@/types/index';
 import fs from 'fs/promises';
 import { lookup } from 'mime-types';
 
-export const convertMessages = async (messages: ChatMessage[]) => {
+export const convertMessages = async (messages: ChatMessageProps[]) => {
   const convertedMessages = [];
 
   for (const message of messages) {

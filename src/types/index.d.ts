@@ -37,26 +37,27 @@ export interface ChatMessageProps {
   imagePath?: string;
 }
 
-export interface ChatMessage {
-  role: string;
-  content: string;
-  imagePath?: string;
-}
-
 export interface CreateChatProps {
-  messages: ChatMessage[];
+  messages: ChatMessageProps[];
   providerName: string;
   selectedModel: string;
   messageId: number;
 }
 
+export interface BaiduChunkProps {
+  is_end: boolean;
+  result: string;
+}
+
+export interface UniversalChunkProps {
+  is_end: boolean;
+  result: string;
+  is_error?: boolean;
+}
+
 export interface UpdatedStreamData {
   messageId: number;
-  data: {
-    is_end: boolean;
-    result: string;
-    is_error?: boolean;
-  }
+  data: UniversalChunkProps
 }
 export type OnUpdatedCallback = (data: UpdatedStreamData) => void;
 

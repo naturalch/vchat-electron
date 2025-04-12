@@ -50,26 +50,16 @@ export const Providers: ProviderProps[] = Mock.mock([
     createdAt: '@date("yyyy-MM-dd")',
     updatedAt: '@date("yyyy-MM-dd")',
   },
-  // {     
-  //   id: 3,
-  //   name: 'openai',
-  //   title: 'OpenAI',
-  //   desc: 'OpenAI GPT系列模型',
-  //   models: ['GPT-4', 'GPT-3.5-Turbo'],
-  //   avatar: '@image("200x200")',
-  //   createdAt: '@date("yyyy-MM-dd")',
-  //   updatedAt: '@date("yyyy-MM-dd")',
-  // },
-  // {     
-  //   id: 4,
-  //   name: 'deepseek',
-  //   title: 'DeepSeek',
-  //   desc: 'DeepSeek AI大模型',
-  //   models: ['deepseek-chat', 'deepseek-R1'],
-  //   avatar: 'https://qph.cf2.poecdn.net/main-thumb-pb-4981273-200-phhqenmywlkiybehuaqvsxpfekviajex.jpeg',
-  //   createdAt: '@date("yyyy-MM-dd")',
-  //   updatedAt: '@date("yyyy-MM-dd")',
-  // },
+  {     
+    id: 3,
+    name: 'deepseek',
+    title: 'DeepSeek',
+    desc: 'DeepSeek AI大模型',
+    models: ['deepseek-chat', 'deepseek-reasoner'],
+    avatar: 'https://qph.cf2.poecdn.net/main-thumb-pb-4981273-200-phhqenmywlkiybehuaqvsxpfekviajex.jpeg',
+    createdAt: '@date("yyyy-MM-dd")',
+    updatedAt: '@date("yyyy-MM-dd")',
+  },
 ]);
 
 export const Messages: MessageProps[] = Mock.mock([
