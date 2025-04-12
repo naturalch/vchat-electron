@@ -21,13 +21,10 @@ export const useMessageStore = defineStore('message', {
       return newMessageId;
     },
     async updateMessage(messageId: number, updatedData: Partial<MessageProps>) {
-      const currentMessage = this.items.find((item) => item.id === messageId);
-      if (currentMessage) {
-        await db.messages.update(messageId, updatedData);
-        const index = this.items.findIndex((item) => item.id === messageId);
-        if (index > -1) {
-          this.items[index] = { ...this.items[index], ...updatedData };
-        }
+      await db.messages.update(messageId, updatedData);
+      const index = this.items.findIndex((item) => item.id === messageId);
+      if (index > -1) {
+        this.items[index] = { ...this.items[index], ...updatedData };
       }
     },
   },

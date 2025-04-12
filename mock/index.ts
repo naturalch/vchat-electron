@@ -35,7 +35,7 @@ export const Providers: ProviderProps[] = Mock.mock([
     name: 'dashscope',
     title: '阿里灵积',
     desc: '通义千问 阿里出品的大模型',
-    models: ['qwen-turbo', 'qwen-plus', 'qwen-max'],
+    models: ['qwen-turbo', 'qwen-plus', 'qwen-max', 'qwen-vl-plus'],
     avatar: 'https://qph.cf2.poecdn.net/main-thumb-pb-4160791-200-qlqunomdvkyitpedtghnhsgjlutapgfl.jpeg',
     createdAt: '@date("yyyy-MM-dd")',
     updatedAt: '@date("yyyy-MM-dd")',

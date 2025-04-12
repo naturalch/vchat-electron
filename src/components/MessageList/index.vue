@@ -1,5 +1,8 @@
 <template>
-  <div class="message-list">
+  <div
+    ref="_ref"
+    class="message-list"
+  >
     <div
       v-for="message in messages"
       :key="message.id"
@@ -25,7 +28,7 @@
               v-if="message.imagePath"
               :src="`safe-file://${message.imagePath}`"
               alt="Message image"
-              class="h-24 w-24 object-cover rounded block"
+              class="h-12 w-12 object-contain rounded block"
             />
             {{ message.content }}
           </div>
@@ -43,9 +46,13 @@
             </template>
             <div
               v-else
-              class="prose prose-slate prose-headings:my-2 prose-li:my-0 prose-ul:my-1 prose-p:my-1 prose-pre:p-0"
+              class="prose prose-gray prose-headings:my-1 prose-li:my-0 prose-ul:my-1 prose-ol:my-1
+                prose-p:my-1 prose-pre:p-0 prose-pre:my-1 prose-hr:my-1"
             >
-              {{ message.content }}
+              <VueMarkdown
+                :source="message.content"
+                :plugins="[markdownItHighlightjs]"
+              />
             </div>
           </div>
         </div>
@@ -58,10 +65,16 @@
 import { MessageProps } from '@/types/index';
 import IIcon from '@/components/IIcon/index.vue';
 import dayjs from 'dayjs';
+import VueMarkdown from 'vue-markdown-render';
+import markdownItHighlightjs from 'markdown-it-highlightjs';
 
 defineOptions({ name: 'MessageList' });
 
 defineProps<{ messages: MessageProps[] }>();
+
+const _ref = ref<HTMLElement>();
+
+defineExpose({ ref: _ref });
 </script>
 
 <style scoped>

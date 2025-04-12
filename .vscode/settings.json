@@ -14,5 +14,5 @@
   "[vue]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
-  "cSpell.words": ["vchat", "vite", "unplugin", "Iconify", "dexie"]
+  "cSpell.words": ["vchat", "vite", "unplugin", "Iconify", "dexie", "highlightjs"]
 }

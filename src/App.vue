@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div class="h-full flex-1">
+    <div class="h-full flex-1 min-w-[388px]">
       <router-view />
     </div>
   </div>

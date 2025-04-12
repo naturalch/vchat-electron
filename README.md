@@ -39,6 +39,7 @@
     *注意：使用其他 UI 库，自行配置
     
 6. 支持 Vue Router、IndexedDB、Pinia、unplugin-auto-import 依赖的自动导入、ESLint、mockjs
+   支持 markdown 高亮
 
 ## 多模型集成和使用
 

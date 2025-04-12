@@ -37,8 +37,14 @@ export interface ChatMessageProps {
   imagePath?: string;
 }
 
+export interface ChatMessage {
+  role: string;
+  content: string;
+  imagePath?: string;
+}
+
 export interface CreateChatProps {
-  messages: { role: string; content: string; }[];
+  messages: ChatMessage[];
   providerName: string;
   selectedModel: string;
   messageId: number;
@@ -53,3 +59,17 @@ export interface UpdatedStreamData {
   }
 }
 export type OnUpdatedCallback = (data: UpdatedStreamData) => void;
+
+export interface MessageListInstance {
+  ref: HTMLDivElement
+}
+
+export interface OpenFileOptions {
+  withDataUrl?: boolean;
+}
+
+export interface OpenFileResult {
+  filePaths: string[];
+  dataUrls?: string[];
+  errorMsg?: string;
+}
