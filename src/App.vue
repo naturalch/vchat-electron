@@ -40,6 +40,7 @@ import IButton from '@/components/IButton/index.vue';
 import { initProviders } from '@/store/indexDB';
 import { useConversationStore  } from '@/store/modules/conversation';
 import { useProviderStore } from '@/store/modules/provider';
+import { initI18n } from './i18n';
 
 console.log('👋 This message is being logged by "App.vue", included via Vite');
 
@@ -48,6 +49,7 @@ const conversationStore = useConversationStore();
 const conversationItems = computed(() => conversationStore.items);
 
 onMounted(async () => {
+  await initI18n();
   await initProviders();
   providerStore.fetchProviders();
   conversationStore.fetchConversations();

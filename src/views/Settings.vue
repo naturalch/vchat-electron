@@ -1,7 +1,7 @@
 <template>
   <div class="settings-container w-[80%] my-0 mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6">
-      应用设置
+      {{ t('settings.title') }}
     </h1>
     
     <TabsRoot
@@ -13,13 +13,13 @@
           value="general"
           class="tabs-trigger"
         >
-          通用设置
+          {{ t('settings.general.title') }}
         </TabsTrigger>
         <TabsTrigger 
           value="models"
           class="tabs-trigger"
         >
-          模型设置
+          {{ t('settings.models.title') }}
         </TabsTrigger>
       </TabsList>
 
@@ -34,7 +34,7 @@
             class="rounded-lg border border-gray-200"
           >
             <AccordionTrigger class="w-full px-4 py-2 text-left hover:bg-gray-50">
-              <span class="text-lg font-semibold">主题设置</span>
+              <span class="text-lg font-semibold">{{ t('settings.general.theme.title') }}</span>
             </AccordionTrigger>
             <AccordionContent class="px-4 py-2">
               <div class="flex items-center space-x-4">
@@ -43,14 +43,14 @@
                   class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
                   :class="theme === 'light' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
                 >
-                  浅色主题
+                  {{ t('settings.general.theme.light') }}
                 </button>
                 <button
                   disabled
                   class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
                   :class="theme === 'dark' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
                 >
-                  深色主题
+                  {{ t('settings.general.theme.dark') }}
                 </button>
               </div>
             </AccordionContent>
@@ -62,12 +62,12 @@
             class="rounded-lg border border-gray-200"
           >
             <AccordionTrigger class="w-full px-4 py-2 text-left hover:bg-gray-50">
-              <span class="text-lg font-semibold">常用设置</span>
+              <span class="text-lg font-semibold">{{ t('settings.general.common.title') }}</span>
             </AccordionTrigger>
             <AccordionContent class="px-4 py-2 space-y-4">
               <div class="flex items-center gap-4">
                 <label class="w-24 text-gray-700">
-                  语言
+                  {{ t('settings.general.common.language') }}
                 </label>
                 <SelectRoot
                   v-model="currentConfig.language"
@@ -111,7 +111,7 @@
               </div>
               <div class="flex items-center gap-4">
                 <label class="w-24 text-gray-700">
-                  字体大小
+                  {{ t('settings.general.common.fontSize') }}
                 </label>
                 <NumberFieldRoot
                   v-model="currentConfig.fontSize"
@@ -139,7 +139,7 @@
             class="rounded-lg border border-gray-200"
           >
             <AccordionTrigger class="w-full px-4 py-2 text-left hover:bg-gray-50">
-              <span class="text-lg font-semibold">通知设置</span>
+              <span class="text-lg font-semibold">{{ t('settings.general.notifications.title') }}</span>
             </AccordionTrigger>
             <AccordionContent class="px-4 py-2">
               <div class="space-y-4">
@@ -150,7 +150,7 @@
                     disabled
                     class="w-4 h-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
                   />
-                  <span class="text-gray-700">启用通知</span>
+                  <span class="text-gray-700">{{ t('settings.general.notifications.enable') }}</span>
                 </label>
               </div>
             </AccordionContent>
@@ -186,22 +186,19 @@
             </AccordionTrigger>
             <AccordionContent class="px-4 py-2">
               <div class="space-y-4">
-                <div class="flex items-center gap-4">
-                  <label class="text-gray-700 w-24">Access Key</label>
+                <div
+                  v-for="config in getProviderConfig(provider.name)"
+                  :key="config.key"
+                  class="flex items-center gap-4"
+                >
+                  <label class="text-gray-700 w-24">{{ config.label }}</label>
                   <input
-                    type="text"
-                    placeholder="请输入Access Key"
-                    required
+                    :type="config.type"
+                    :placeholder="config.placeholder"
+                    :required="config.required"
+                    :value="config.value"
                     class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                  />
-                </div>
-                <div class="flex items-center gap-4">
-                  <label class="text-gray-700 w-24">Secret Key</label>
-                  <input
-                    type="text"
-                    placeholder="请输入Secret Key"
-                    required
-                    class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                    @input="(e) => updateProviderConfig(provider.name, config.key, (e.target as HTMLInputElement).value)"
                   />
                 </div>
               </div>
@@ -241,6 +238,13 @@ import {
 import IIcon from '@/components/IIcon/index.vue';
 import { useProviderStore } from '@/store/modules/provider';
 import { AppConfig } from '@/types/index';
+import { useI18n } from 'vue-i18n';
+import { setI18nLanguage } from '../i18n';
+import { providerConfigs, ProviderConfigItem } from '../config/providerConfig';
+
+// TODO: 模型配置
+// TODO: 全局 i18n 替换、字体大小实现
+const { t } = useI18n();
 
 const activeTab = ref('general');
 
@@ -249,6 +253,24 @@ const notifications = ref<boolean>(false);
 
 const providerStore = useProviderStore();
 const providers = computed(() => providerStore.items);
+
+const getProviderConfig = (providerName: string): ProviderConfigItem[] => {
+  const configs = providerConfigs[providerName] || [];
+  if (!currentConfig.providerConfigs[providerName]) {
+    currentConfig.providerConfigs[providerName] = {};
+  }
+  return configs.map(config => ({
+    ...config,
+    value: currentConfig.providerConfigs[providerName][config.key] || config.value,
+  }));
+};
+
+const updateProviderConfig = (providerName: string, key: string, value: string) => {
+  if (!currentConfig.providerConfigs[providerName]) {
+    currentConfig.providerConfigs[providerName] = {};
+  }
+  currentConfig.providerConfigs[providerName][key] = value;
+};
 
 const currentConfig = reactive<AppConfig>({
   language: 'zh',
@@ -265,6 +287,10 @@ watch(currentConfig, async (newConfig) => {
   await window.electronAPI.updateConfig(configToSave);
 }, {
   deep: true,
+});
+
+watch(() => currentConfig.language, async (newLanguage) => {
+  setI18nLanguage(newLanguage);
 });
 
 onMounted(async () => {
