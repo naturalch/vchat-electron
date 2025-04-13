@@ -9,7 +9,6 @@ import Conversation from '@/views/Conversation.vue';
 import Settings from '@/views/Settings.vue';
 import { useConversationStore } from '@/store/modules/conversation'; 
 
-// TODO: 应用配置
 const routes:Array<RouteRecordRaw> = [
   { path: '/', name: 'home', component: Home, meta: { title: '首页' } },
   { path: '/conversation/:id', name: 'conversation', component: Conversation, meta: { title: '对话' } },

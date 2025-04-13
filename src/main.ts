@@ -3,14 +3,17 @@ import path from 'path';
 import 'dotenv/config';
 import { setupIPC } from './ipc';
 import url from 'node:url';
+import { configManager } from './config';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-// TODO: 应用配置
 const createWindow = async () => {
+  // 初始化配置
+  await configManager.load();
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1024,

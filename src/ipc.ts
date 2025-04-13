@@ -1,9 +1,10 @@
 import { ipcMain, BrowserWindow, app, dialog } from 'electron';
-import { CreateChatProps, OpenFileOptions, OpenFileResult, UpdatedStreamData } from './types/index';
+import { CreateChatProps, OpenFileOptions, OpenFileResult, UpdatedStreamData, AppConfig } from './types/index';
 import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createProvider } from './providers/createProvider';
+import { configManager } from './config';
 
 export function setupIPC(mainWindow: BrowserWindow) {
   ipcMain.on('start-chat', async (event, data: CreateChatProps) => {
@@ -51,5 +52,15 @@ export function setupIPC(mainWindow: BrowserWindow) {
     }
 
     return result;
+  });
+  
+  ipcMain.handle('get-config', () => {
+    return configManager.get();
+  });
+
+  ipcMain.handle('update-config', async (event, newConfig: Partial<AppConfig>) => {
+    console.log('on update config', newConfig);
+    const updatedConfig = await configManager.update(newConfig);
+    return updatedConfig;
   });
 }

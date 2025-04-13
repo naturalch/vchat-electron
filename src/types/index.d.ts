@@ -74,3 +74,9 @@ export interface OpenFileResult {
   dataUrls?: string[];
   errorMsg?: string;
 }
+
+export interface AppConfig {
+  language: 'zh' | 'en'
+  fontSize: number
+  providerConfigs: Record<string, Record<string, string>>
+}
