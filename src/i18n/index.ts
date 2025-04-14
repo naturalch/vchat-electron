@@ -15,9 +15,12 @@ export const i18n = createI18n<[MessageSchema], LanguageType>({
   },
 });
 
-export async function initI18n() {
-  const config = await window.electronAPI.getConfig();
-  setI18nLanguage(config.language);
+export async function initI18n(locale?: LanguageType) {
+  if (!locale) {
+    const config = await window.electronAPI.getConfig();
+    locale = config.language;
+  }
+  setI18nLanguage(locale);
 }
 
 export function setI18nLanguage(locale: LanguageType) {

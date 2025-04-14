@@ -1,5 +1,4 @@
 import './styles/index.css';
-import './styles/tailwind.css';
 import 'highlight.js/styles/github-dark.min.css';
 import { createApp } from 'vue';
 import App from './App.vue';

@@ -236,7 +236,6 @@ import { setI18nLanguage } from '../i18n';
 import { providerConfigs, ProviderConfigItem } from '../config/providerConfig';
 
 // TODO: 支持新模型接入、模型版本选择
-// TODO: 全局 i18n 替换、字体大小实现
 const { t } = useI18n();
 
 const activeTab = ref('general');
@@ -280,6 +279,10 @@ watch(currentConfig, async (newConfig) => {
   await window.electronAPI.updateConfig(configToSave);
 }, {
   deep: true,
+});
+
+watch(() => currentConfig.fontSize, (newFontSize) => {
+  document.documentElement.style.setProperty('--font-size', `${newFontSize}px`);
 });
 
 watch(() => currentConfig.language, async (newLanguage) => {

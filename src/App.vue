@@ -14,7 +14,7 @@
             plain
             class="w-full"
           >
-            应用配置
+            {{ $t('app.settings') }}
           </IButton>
         </router-link>
         <router-link to="/">
@@ -22,7 +22,7 @@
             icon-name="radix-icons:chat-bubble"
             class="w-full"
           >
-            新建聊天
+            {{ $t('app.newChat') }}
           </IButton>
         </router-link>
       </div>
@@ -48,8 +48,14 @@ const providerStore = useProviderStore();
 const conversationStore = useConversationStore();
 const conversationItems = computed(() => conversationStore.items);
 
+const initSettings = async () => {
+  const config = await window.electronAPI.getConfig();
+  await initI18n(config.language);
+  document.documentElement.style.setProperty('--font-size', `${config.fontSize}px`);
+};
+
 onMounted(async () => {
-  await initI18n();
+  await initSettings();
   await initProviders();
   providerStore.fetchProviders();
   conversationStore.fetchConversations();

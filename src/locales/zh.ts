@@ -51,4 +51,11 @@ export default {
     edit: '编辑',
     close: '关闭',
   },
+  app: {
+    settings: '应用配置',
+    newChat: '新建聊天',
+  },
+  provider: {
+    selectModel: '请选择模型...',
+  },
 };

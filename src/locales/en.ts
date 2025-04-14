@@ -51,4 +51,11 @@ export default {
     edit: 'Edit',
     close: 'Close',
   },
+  app: {
+    settings: 'App Settings',
+    newChat: 'New Chat',
+  },
+  provider: {
+    selectModel: 'Select a model...',
+  },
 };
