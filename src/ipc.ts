@@ -11,11 +11,17 @@ export function setupIPC(mainWindow: BrowserWindow) {
     console.log('hey', data);
     const { providerName, messages, messageId, selectedModel } = data;
     
-    const provider = createProvider(providerName);
-    const stream = await provider.chat(messages, selectedModel);
-    for await (const chunk of stream) {
-      const content: UpdatedStreamData = { messageId, data: chunk };
-      mainWindow.webContents.send('update-message', content);
+    try {
+      const provider = createProvider(providerName);
+      const stream = await provider.chat(messages, selectedModel);
+      for await (const chunk of stream) {
+        const content: UpdatedStreamData = { messageId, data: chunk };
+        mainWindow.webContents.send('update-message', content);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        dialog.showErrorBox('错误', error.message);
+      }
     }
   });
 

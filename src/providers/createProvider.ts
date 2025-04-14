@@ -3,7 +3,6 @@ import { OpenAIProvider } from './OpenAIProvider';
 import { QianfanProvider } from './QianfanProvider';
 import { configManager } from '../config';
 
-// TODO: 错误弹窗
 export function createProvider(providerName: string): BaseProvider {
   const config = configManager.get();
   const providerConfig = config.providerConfigs[providerName] || {};

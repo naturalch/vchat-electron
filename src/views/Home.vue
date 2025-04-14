@@ -34,7 +34,6 @@ const currentProvider = ref('');
 
 const providerOptions = computed(() => providerStore.items);
 
-// TODO: 交互优化
 const modelInfo = computed(() => {
   const [ providerId, selectedModel ] = currentProvider.value.split('/');
   return {

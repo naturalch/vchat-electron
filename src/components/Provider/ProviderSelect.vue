@@ -5,7 +5,21 @@
         class="flex w-full items-center justify-between 
           rounded-md py-1.5 px-3 shadow-sm border outline-none data-[placeholder]:text-gray-400"
       >
-        <SelectValue :placeholder="$t('provider.selectModel')" />
+        <SelectValue :placeholder="$t('provider.selectModel')">
+          <template #default>
+            <div
+              v-if="currentModel"
+              class="flex items-center"
+            >
+              <img
+                :src="currentProvider?.avatar"
+                :alt="currentProvider?.name"
+                class="h-5 w-5 mr-2 rounded"
+              />
+              <span>{{ currentModel.split('/')[1] }}</span>
+            </div>
+          </template>
+        </SelectValue>
         <IIcon
           icon="radix-icons:chevron-down"
           class="h-5 w-5"
@@ -73,7 +87,13 @@ import { ProviderProps } from '@/types/index';
 defineOptions({ name: 'ProvideSelect' });
 
 const currentModel = defineModel<string>();
-defineProps<{ options: ProviderProps[] }>();
+const props = defineProps<{ options: ProviderProps[] }>();
+
+const currentProvider = computed(() => {
+  if (!currentModel.value) return null;
+  const providerId = parseInt(currentModel.value.split('/')[0]);
+  return props.options.find(provider => provider.id === providerId);
+});
 </script>
 
 <style scoped></style>

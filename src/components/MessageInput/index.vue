@@ -13,12 +13,17 @@
         class="w-12 h-12 object-contain rounded"
       />
     </div>
-    <div class="flex items-center">
+    <div
+      class="flex items-center"
+      :class="[
+        disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+      ]"
+    >
       <IIcon
         icon="radix-icons:image"
         class="!w-[24px] !h-[24px] mr-2"
         :class="[
-          disabled ? 'text-gray-300 cursor-not-allowed' : 'text-gray-400 cursor-pointer hover:text-gray-600',
+          disabled ? 'text-gray-300' : 'text-gray-400 hover:text-gray-600',
         ]"
         @click="handleImageUpload"
       />
@@ -64,6 +69,9 @@ const emit = defineEmits<{
 
 let selectedImage: string | undefined = undefined;
 const handleImageUpload = async (event: Event) => {
+  if (props.disabled) {
+    return;
+  }
   const { filePaths, dataUrls, errorMsg } = await window.electronAPI.openFileDialog({ withDataUrl: true });
   if (!filePaths?.length || errorMsg) {
     return; 
