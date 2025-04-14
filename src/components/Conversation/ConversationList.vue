@@ -23,7 +23,7 @@
       v-else
       class="flex items-center justify-center h-[64px] text-gray-300 p-2"
     >
-      暂无对话
+      {{ t('conversation.noConversations') }}
     </div>
   </div>
 </template>
@@ -32,8 +32,11 @@
 import { ConversationProps } from '@/types/index';
 import dayjs from 'dayjs';
 import { useConversationStore } from '@/store/modules/conversation';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'ConversationList' });
+
+const { t } = useI18n();
 
 defineProps<{ list: ConversationProps[] }>();
 

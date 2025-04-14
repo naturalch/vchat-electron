@@ -29,34 +29,6 @@
           class="space-y-4"
         >
           <AccordionItem
-            value="theme"
-            open
-            class="rounded-lg border border-gray-200"
-          >
-            <AccordionTrigger class="w-full px-4 py-2 text-left hover:bg-gray-50">
-              <span class="text-lg font-semibold">{{ t('settings.general.theme.title') }}</span>
-            </AccordionTrigger>
-            <AccordionContent class="px-4 py-2">
-              <div class="flex items-center space-x-4">
-                <button
-                  disabled
-                  class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
-                  :class="theme === 'light' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
-                >
-                  {{ t('settings.general.theme.light') }}
-                </button>
-                <button
-                  disabled
-                  class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
-                  :class="theme === 'dark' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
-                >
-                  {{ t('settings.general.theme.dark') }}
-                </button>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem
             value="common"
             open
             class="rounded-lg border border-gray-200"
@@ -65,6 +37,27 @@
               <span class="text-lg font-semibold">{{ t('settings.general.common.title') }}</span>
             </AccordionTrigger>
             <AccordionContent class="px-4 py-2 space-y-4">
+              <div class="flex items-center gap-4">
+                <label class="w-24 text-gray-700">
+                  {{ t('settings.general.common.theme') }}
+                </label>
+                <div class="flex items-center space-x-4">
+                  <button
+                    disabled
+                    class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
+                    :class="theme === 'light' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                  >
+                    {{ t('settings.general.common.light') }}
+                  </button>
+                  <button
+                    disabled
+                    class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
+                    :class="theme === 'dark' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                  >
+                    {{ t('settings.general.common.dark') }}
+                  </button>
+                </div>
+              </div>
               <div class="flex items-center gap-4">
                 <label class="w-24 text-gray-700">
                   {{ t('settings.general.common.language') }}
@@ -143,7 +136,7 @@
             </AccordionTrigger>
             <AccordionContent class="px-4 py-2">
               <div class="space-y-4">
-                <label class="flex items-center space-x-2">
+                <label class="flex items-center space-x-2 cursor-not-allowed">
                   <input 
                     v-model="notifications" 
                     type="checkbox"
@@ -242,7 +235,7 @@ import { useI18n } from 'vue-i18n';
 import { setI18nLanguage } from '../i18n';
 import { providerConfigs, ProviderConfigItem } from '../config/providerConfig';
 
-// TODO: 模型配置
+// TODO: 支持新模型接入、模型版本选择
 // TODO: 全局 i18n 替换、字体大小实现
 const { t } = useI18n();
 

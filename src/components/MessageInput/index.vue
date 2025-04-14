@@ -24,7 +24,7 @@
       />
       <input
         v-model="currentInput"
-        :placeholder="disabled ? '请先选择模型' : '请输入内容'"
+        :placeholder="disabled ? t('home.noProviderSelected') : t('home.inputPlaceholder')"
         :disabled="disabled"
         type="text"
         class="outline-none border-0 flex-1 bg-white focus:ring-0"
@@ -35,7 +35,7 @@
         icon-name="radix-icons:paper-plane"
         @click="onSend"
       >
-        发送
+        {{ t('conversation.send') }}
       </IButton>
     </div>
   </div>
@@ -44,8 +44,11 @@
 <script setup lang="ts">
 import IIcon from '@/components/IIcon/index.vue';
 import IButton from '@/components/IButton/index.vue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'MessageInput' });
+
+const { t } = useI18n();
 
 const props = defineProps<{
   disabled?: boolean;
