@@ -9,8 +9,9 @@
           'bg-green-50': item.id === conversationStore.selectedId,
           'bg-white': item.id !== conversationStore.selectedId,
         }"
+        @contextmenu.prevent="showContextmenu(item.id)"
       >
-        <a @click="goToConversation(item.id)">
+        <a @click.prevent="goToConversation(item.id)">
           <div class="flex justify-between items-center text-sm leading-5 text-gray-300">
             <span>{{ item.selectedModel }}</span>
             <span>{{ dayjs(item.updatedAt).format('YYYY-MM-DD') }}</span>
@@ -51,6 +52,20 @@ const goToConversation = (conversationId: number) => {
   router.push({ name: 'conversation',params: { id: conversationId } });
   conversationStore.selectedId = conversationId;
 };
+
+const showContextmenu = (id: number) => {
+  window.electronAPI.showContextMenu(id);
+};
+
+onMounted(() => {
+  window.electronAPI.onDeleteConversation(async (id: number) => {
+    await conversationStore.deleteConversation(id);
+    if (conversationStore.selectedId === id) {
+      conversationStore.selectedId = -1;
+      router.push('/');
+    }
+  });
+});
 </script>
 
 <style scoped></style>

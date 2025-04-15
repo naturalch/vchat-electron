@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { setupIPC } from './ipc';
 import url from 'node:url';
 import { configManager } from './config';
+import { createMenu } from './menu';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -29,6 +30,8 @@ const createWindow = async () => {
   });
   
   setupIPC(mainWindow);
+
+  createMenu(mainWindow);
 
   protocol.handle('safe-file', async (request) => {
     // 转换自定义文件路径的协议及转义符号，转为实际文件路径

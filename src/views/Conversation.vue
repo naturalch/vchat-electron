@@ -70,7 +70,6 @@ const conversation = computed(() => {
   return conversationStore.getConversationById(conversationId.value);
 });
 
-// TODO: 兼容各状态
 watch(() => route.params.id, async (newConversationId: string) => {
   conversationId.value = parseInt(newConversationId);
   await messageStore.fetchMessagesByConversation(conversationId.value);
@@ -78,6 +77,7 @@ watch(() => route.params.id, async (newConversationId: string) => {
   currentMessageListHeight = 0;
 });
 
+// TODO: 暂停回答
 const sendNewMessage = async (question: string, imagePath?: string) => {
   if (!question.trim()) {
     return;

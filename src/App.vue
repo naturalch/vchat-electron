@@ -44,14 +44,32 @@ import { initI18n } from './i18n';
 
 console.log('👋 This message is being logged by "App.vue", included via Vite');
 
+const router = useRouter();
+
 const providerStore = useProviderStore();
+
 const conversationStore = useConversationStore();
 const conversationItems = computed(() => conversationStore.items);
 
+// 初始化通用配置
 const initSettings = async () => {
   const config = await window.electronAPI.getConfig();
   await initI18n(config.language);
   document.documentElement.style.setProperty('--font-size', `${config.fontSize}px`);
+};
+
+// 处理菜单事件
+const handleMenuEvents = () => {
+  window.electronAPI.onMenuEvent((type: string) => {
+    switch (type) {
+      case 'menu-new-conversation':
+        router.push('/');
+        break;
+      case 'menu-open-settings':
+        router.push('/settings');
+        break;
+    }
+  });
 };
 
 onMounted(async () => {
@@ -59,5 +77,6 @@ onMounted(async () => {
   await initProviders();
   providerStore.fetchProviders();
   conversationStore.fetchConversations();
+  handleMenuEvents();
 });
 </script>

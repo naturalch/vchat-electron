@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createProvider } from './providers/createProvider';
 import { configManager } from './config';
+import { updateMenu, createContextMenu } from './menu';
 
 export function setupIPC(mainWindow: BrowserWindow) {
   ipcMain.on('start-chat', async (event, data: CreateChatProps) => {
@@ -73,6 +74,18 @@ export function setupIPC(mainWindow: BrowserWindow) {
   ipcMain.handle('update-config', async (event, newConfig: Partial<AppConfig>) => {
     console.log('on update config', newConfig);
     const updatedConfig = await configManager.update(newConfig);
+
+    // 如果语言发生变化，更新菜单
+    if (newConfig.language) {
+      updateMenu(mainWindow);
+    }
+    
     return updatedConfig;
+  });
+
+  ipcMain.on('show-context-menu', (event, id) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!win) return;
+    createContextMenu(win, id);
   });
 }

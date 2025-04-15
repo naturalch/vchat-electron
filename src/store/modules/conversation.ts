@@ -24,6 +24,13 @@ export const useConversationStore = defineStore('conversation', {
       });
       return newConversationId;
     },
+    async deleteConversation(id: number) {
+      await db.conversations.delete(id);
+      const index = this.items.findIndex((item) => item.id === id);
+      if (index > -1) {
+        this.items.splice(index, 1);
+      }
+    },
   },
   getters: {
     totalConversations: (state) => state.items.length,

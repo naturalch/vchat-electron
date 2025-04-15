@@ -1,6 +1,7 @@
 # Electron + Vue + TS + 大模型 跨平台桌面聊天应用
 
-![](./src/assets/demo.png)
+## 应用截图
+![应用截图](./src/assets/demo.png)
 
 ## 框架搭建
 
