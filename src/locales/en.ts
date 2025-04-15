@@ -5,9 +5,6 @@ export default {
       title: 'General Settings',
       common: {
         title: 'Common Settings',
-        theme: 'Theme',
-        light: 'Light Theme',
-        dark: 'Dark Theme',
         language: 'Language',
         fontSize: 'Font Size',
       },

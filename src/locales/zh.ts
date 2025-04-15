@@ -5,9 +5,6 @@ export default {
       title: '通用设置',
       common: {
         title: '基础设置',
-        theme: '主题',
-        light: '浅色主题',
-        dark: '深色主题',
         language: '语言',
         fontSize: '字体大小',
       },

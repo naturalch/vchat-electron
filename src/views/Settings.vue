@@ -39,27 +39,6 @@
             <AccordionContent class="px-4 py-2 space-y-4">
               <div class="flex items-center gap-4">
                 <label class="w-24 text-gray-700">
-                  {{ t('settings.general.common.theme') }}
-                </label>
-                <div class="flex items-center space-x-4">
-                  <button
-                    disabled
-                    class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
-                    :class="theme === 'light' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
-                  >
-                    {{ t('settings.general.common.light') }}
-                  </button>
-                  <button
-                    disabled
-                    class="px-4 py-2 rounded-md transition-colors cursor-not-allowed" 
-                    :class="theme === 'dark' ? 'bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300'"
-                  >
-                    {{ t('settings.general.common.dark') }}
-                  </button>
-                </div>
-              </div>
-              <div class="flex items-center gap-4">
-                <label class="w-24 text-gray-700">
                   {{ t('settings.general.common.language') }}
                 </label>
                 <SelectRoot
@@ -240,7 +219,6 @@ const { t } = useI18n();
 
 const activeTab = ref('general');
 
-const theme = ref<'light' | 'dark'>('light');
 const notifications = ref<boolean>(false); 
 
 const providerStore = useProviderStore();

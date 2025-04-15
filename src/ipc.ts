@@ -19,9 +19,15 @@ export function setupIPC(mainWindow: BrowserWindow) {
         mainWindow.webContents.send('update-message', content);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        dialog.showErrorBox('错误', error.message);
-      }
+      const errorContent: UpdatedStreamData = {
+        messageId,
+        data: {
+          is_end: true,
+          result: error instanceof Error ? error.message : '与AI服务通信错误，请稍后重试！',
+          is_error: true,
+        },
+      };
+      mainWindow.webContents.send('update-message', errorContent);
     }
   });
 

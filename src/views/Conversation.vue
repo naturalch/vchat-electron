@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import MessageList from '@/components/MessageList/index.vue';
 import MessageInput from '@/components/MessageInput/index.vue';
-import { MessageProps, MessageStatus, MessageListInstance } from '@/types/index';
+import { MessageProps, MessageStatus, MessageListInstance, UniversalChunkProps } from '@/types/index';
 import dayjs from 'dayjs';
 import { useConversationStore } from '@/store/modules/conversation';
 import { useMessageStore } from '@/store/modules/message';
@@ -56,7 +56,7 @@ let currentMessageListHeight = 0;
 const inputValue = ref('');
 const filterMessages = computed(() => messageStore.items);
 const sendedMessages = computed(() => filterMessages.value
-  .filter((message) => message.status !== 'loading')
+  .filter((message) => message.status !== 'loading' && message.status !== 'error')
   .map((message) => {
     return {
       role: message.type === 'question' ? 'user' : 'assistant',
@@ -156,6 +156,16 @@ onMounted(async () => {
     }
   };
 
+  const getMessageStatus = (data: UniversalChunkProps): MessageStatus => {
+    if (data.is_error) {
+      return 'error';
+    } else if (data.is_end) {
+      return 'finished';
+    } else {
+      return 'streaming';
+    }
+  };
+
   let streamContent = '';
   window.electronAPI.onUpdateMessage(async (streamData) => {
     console.log('stream', streamData);
@@ -163,7 +173,7 @@ onMounted(async () => {
     streamContent += data.result;
     const updatedData = {
       content: streamContent,
-      status: data.is_end ? 'finished' : 'streaming' as MessageStatus,
+      status: getMessageStatus(data),
       updatedAt: new Date().toISOString(),
     };
     await messageStore.updateMessage(messageId, updatedData);
