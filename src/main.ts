@@ -21,6 +21,7 @@ const createWindow = async () => {
     height: 768,
     minWidth: 750,
     minHeight: 562,
+    title: 'VChat Electron',
     webPreferences: {
       webSecurity: true, // 启用/禁用浏览器的同源策略
       nodeIntegration: false,  // 允许渲染进程直接使用 Node.js API
@@ -56,7 +57,9 @@ const createWindow = async () => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (!app.isPackaged) {
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 // This method will be called when Electron has finished
